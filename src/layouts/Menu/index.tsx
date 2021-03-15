@@ -1,7 +1,7 @@
 import React from "react";
 import { Menu, Layout } from "antd";
 import menusConfig, { ChildrenMenu } from "../../config/menus";
-import { Link, RouteComponentProps, withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 const { SubMenu } = Menu;
 const { Sider } = Layout;
 

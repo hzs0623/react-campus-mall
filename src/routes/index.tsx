@@ -4,6 +4,8 @@ import React from "react";
 import routers from "../config/routes";
 import path from "path";
 import { interfaceRouter } from "../config/routes";
+import store from "../redux";
+import { pro_token } from "../constant";
 
 const RouteItem = (props: interfaceRouter) => {
   const { redirect, path: routePath, component, key } = props;
@@ -17,14 +19,16 @@ const RouteItem = (props: interfaceRouter) => {
 };
 
 const formatRouteItem = (props: interfaceRouter, id: number) => {
-  const { component: RouteComponent, children, path: FatherPath } = props;
-
+  const { component: RouteComponent, children, path: FatherPath, auth = ''} = props;
   return (
     <RouteComponent key={id} {...props}>
       <Switch>
         {children.map((routeChild: interfaceRouter, idx: number) => {
           const { redirect, path: childPath, component } = routeChild;
-
+          // eslint-disable-next-line no-mixed-operators
+          if(auth && !store.getState().global.token && !window.localStorage.getItem(pro_token)) {
+            window.location.href = `${window.location.origin}/#/login`
+          }
           return RouteItem({
             key: `${id}-${idx}`,
             redirect,
@@ -43,7 +47,7 @@ const route = () => {
       {/* Switch匹配到第一个路由就不会继续匹配了*/}
       <Switch>
         {routers.map((item: interfaceRouter, id: number) => {
-          const { children, ...others } = item;
+          const { children = [], ...others } = item;
           return (
             <Route
               key={id}
