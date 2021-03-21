@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import { Card, Form, Button, Input, Table, Tag, Space, Modal, Skeleton  } from 'antd';
+import { Card, Form, Button, Input, Table, Tag, Space, Modal  } from 'antd';
 import { getList } from "../../api/shop";
 import dayjs from "dayjs";
 

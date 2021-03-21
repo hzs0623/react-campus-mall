@@ -2,6 +2,7 @@ import React, { PureComponent } from "react";
 import { getList } from "../../api/user";
 import { Card, Form, Button, Input, Table, } from 'antd';
 import dayjs from "dayjs";
+import { adminStateMap } from "../../constant";
 
 
 interface AppProps {
@@ -15,15 +16,6 @@ interface AppState {
   total: number;
   list: Array<object>;
   loading: boolean;
-}
-interface AdminState {
-  [propName: string]: string;
-}
-
-const adminStateMap: AdminState = {
-  '1': '普通用户',
-  '2': '管理员',
-  '3': '超级管理员',
 }
 
 export default class User extends PureComponent<AppProps, AppState> {

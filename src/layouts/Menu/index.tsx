@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Menu, Layout } from "antd";
 import menusConfig, { ChildrenMenu } from "../../config/menus";
 import { Link, withRouter } from "react-router-dom";
@@ -23,12 +23,28 @@ function getMenuItems(menusData: any) {
 }
 
 const Menus = (props: any) => {
-  const collapsed = false;
+  const [collapsed, setCollapsed] = useState(false);
+  const [openKeys, setOpenKeys] = useState([props.history.location.pathname]);
 
-  const defaultSelectedKeys: string[] | undefined = []; // 默认选择
+  const onCollapse = () => {
+    setCollapsed(!collapsed);
+  };
+
+  const onOpenChange = (data: any) => {
+    if (data && data.length) {
+      setOpenKeys([data[data.length - 1]]);
+    }
+  };
+
   return (
-    <Sider collapsible collapsed={collapsed}>
-      <Menu theme="dark" defaultSelectedKeys={defaultSelectedKeys} mode="inline">
+    <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
+      <Menu
+        theme="dark"
+        mode="inline"
+        selectedKeys={[props.history.location.pathname]}
+        onOpenChange={onOpenChange}
+        openKeys={openKeys}
+      >
         {menusConfig.map((item) => {
           const { path, children, name, icon: Icon } = item;
           return (

@@ -13,16 +13,29 @@ export const getToken:any = (() => {
 
 export const apiUrl:string = ENV === 'production' ? `http://121.4.113.48:3333` : 'http://127.0.0.1:3333'; // api url
 
+interface MethodMap {
+  [propName: string]: string;
+}
 // 支付方式map
-export const methodMap:object = {
-  0: '货到付款',
-  1: '微信',
-  2: '支付宝',
-  3: '线下支付'
+export const methodMap: MethodMap = {
+  '0': '货到付款',
+  '1': '微信',
+  '2': '支付宝',
+  '3': '线下支付'
 }
 
-export const sellStateMap:object = {
-  1: '发货中',
-  2: '已发货，待收货',
-  3: "交易完成"
+export const sellStateMap:MethodMap = {
+  '1': '发货中',
+  '2': '已发货，待收货',
+  '3': "交易完成"
+}
+
+interface AdminState {
+  [propName: string]: string;
+}
+
+export const adminStateMap: AdminState = {
+  '1': '普通用户',
+  '2': '管理员',
+  '3': '超级管理员',
 }

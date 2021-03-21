@@ -1,12 +1,15 @@
-import React, { PureComponent } from "react";
+import React from "react";
+import { Calendar } from 'antd';
+import "./index.less";
 
-export default class Home extends PureComponent {
-
-  render() {
-    return (
-      <div className="page-user">
-        欢迎
-      </div>
-    );
+const Home:React.FC = () => {
+  const onPanelChange = (value:any, mode:any) => {
+    console.log(value.format('YYYY-MM-DD'), mode);
   }
+  return (
+    <div className="site-calendar-demo-card">
+      <Calendar fullscreen={false} onPanelChange={onPanelChange} />
+    </div>
+  )
 }
+export default Home;
