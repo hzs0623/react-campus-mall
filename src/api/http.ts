@@ -5,7 +5,7 @@ import { handleResponse, handleRequest } from './utils';
  
 const service = axios.create({
   baseURL: apiUrl,
-  timeout: 5000
+  // timeout: 5000
 })
 
 service.interceptors.request.use(

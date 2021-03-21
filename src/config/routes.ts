@@ -4,6 +4,9 @@ import shopManagement from '../views/shop/shopManagement';
 import UserInfo from "../views/user/userInfo";
 import Login from "../views/system/login";
 import Home from "../views/home";
+import ShopCart from "../views/shopCart";
+import ShopMessage from "../views/shopMessage";
+import Order from "../views/order";
 
 export interface interfaceRouter {
   component?: any;
@@ -26,20 +29,29 @@ const routerConfig: interfaceRouter[] = [
       {
         path: "/user/info",
         component: UserInfo,
-        auth: true
       },
       {
         path: "/shop/management",
         component: shopManagement,
-        auth: true
+      },
+      {
+        path: "/shop/cartList",
+        component: ShopCart,
+      },
+      {
+        path: "/message/list",
+        component: ShopMessage,
+      },
+      {
+        path: "/order/list",
+        component: Order,
       },
       {
         path: "/home",
         component: Home,
-        auth: true
       }
     ],
-   
+    auth: true
   },
 ];
 

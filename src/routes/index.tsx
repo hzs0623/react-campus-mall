@@ -5,7 +5,7 @@ import routers from "../config/routes";
 import path from "path";
 import { interfaceRouter } from "../config/routes";
 import store from "../redux";
-import { pro_token } from "../constant";
+import { getToken } from "../constant";
 
 const RouteItem = (props: interfaceRouter) => {
   const { redirect, path: routePath, component, key } = props;
@@ -25,11 +25,10 @@ const formatRouteItem = (props: interfaceRouter, id: number) => {
       <Switch>
         {children.map((routeChild: interfaceRouter, idx: number) => {
           const { redirect, path: childPath, component } = routeChild;
-          // eslint-disable-next-line no-mixed-operators
-          if(auth && !store.getState().global.token && !window.localStorage.getItem(pro_token)) {
+          if(auth && !store.getState().global.token && !getToken  ) {
             window.location.href = `${window.location.origin}/#/login`
           }
-          return RouteItem({
+          return RouteItem({  
             key: `${id}-${idx}`,
             redirect,
             path: childPath && path.join(FatherPath, childPath),

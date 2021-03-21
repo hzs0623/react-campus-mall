@@ -1,8 +1,7 @@
 import React, { PureComponent } from "react";
-import { Card, Form, Button, Input, Table, Tag, Space } from 'antd';
+import { Card, Form, Button, Input, Table, Tag, Space, Modal, Skeleton  } from 'antd';
 import { getList } from "../../api/shop";
 import dayjs from "dayjs";
-
 
 interface AppProps {
   [propName: string]: any;
@@ -13,7 +12,9 @@ interface AppState {
   curPage?: number,
   list: Array<object>,
   total: number,
-  loading: boolean
+  loading: boolean,
+  isModalVisible: boolean,
+  editForm: Object,
 }
 export default class management extends PureComponent<AppProps, AppState> {
 
@@ -24,7 +25,9 @@ export default class management extends PureComponent<AppProps, AppState> {
       curPage: 1,
       list: [],
       total: 0,
-      loading:false
+      loading:false,
+      isModalVisible: false,
+      editForm: {}
     }
   }
   
@@ -59,77 +62,47 @@ export default class management extends PureComponent<AppProps, AppState> {
     }, () => {
       this.getList()
     });
-    
   }
 
-  columns = [
-    {
-      title: '标题',
-      dataIndex: 'title',
-      key: 'title',
-      ellipsis: true
-    },
-    {
-      title: '成色',
-      dataIndex: 'level',
-      key: 'level',
-      render: (text: number) => {
-        const color = text > 5 ? 'green' : '#ffe793';
-        return <Tag color= {color}> {text} </Tag>
-      }
-    },
-    {
-      title: '价格',
-      dataIndex: 'price',
-      key: 'price',
-    },
-    {
-      title: '库存',
-      dataIndex: 'count',
-      key: 'count',
-    },
-    {
-      title: '简介',
-      dataIndex: 'information',
-      key: 'information',
-      ellipsis: true
-    },
-    {
-      title: '发布日期',
-      dataIndex: 'create_time',
-      key: 'create_time',
-      render: (text:any) => {
-        return dayjs(text).format(`YYYY-MM-DD HH:mm`)
-      },
-    },
-    {
-      title: '修改日期',
-      dataIndex: 'update_time',
-      key: 'update_time',
-      render: (text:any) => {
-        return dayjs(text).format(`YYYY-MM-DD HH:mm`)
-      },
-    },
-    {
-      title: 'Action',
-      key: 'operation',
-      width: 160,
-      render:(text: any, record:any) => (
-        <Space size="middle">
-          <a>修改</a>
-          <a>删除</a>
-        </Space>
-      )
-    },
-  ]
+  handleOk() {
+    this.handleCancel(); 
+  }
 
-  render() {
-    const {loading, list, total, curPage } = this.state;
+  handleCancel() {
+    this.setState({
+      isModalVisible: false
+    })
+  }
+
+  handerEdit(data: object) {
+    this.setState({ isModalVisible: true,
+      editForm: data });
+  }
+
+  submit(values:any) {
+    this.handleCancel();
+  }
+
+  editFormRender() {
     return (
-      <div className="page-user">
-        <Card>
+      <Form name="customized_form_edit" onFinish={this.submit.bind(this)}>
+      <Form.Item name="title" label="商品标题">
+        <Input />
+      </Form.Item>
+      <Form.Item>
+        <Button type="primary" htmlType="submit">
+          Search
+        </Button>
+      </Form.Item>
+    </Form>
+    )
+  }
+
+  renderForm() {
+    return (
+      <Card>
           <Form name="customized_form_controls" onFinish={this.onFinish.bind(this)}  layout="inline">
-            <Form.Item name="titil" label="商品标题">
+            <Form.Item name="title" label="商品标题">
               <Input />
             </Form.Item>
             <Form.Item>
@@ -138,14 +111,91 @@ export default class management extends PureComponent<AppProps, AppState> {
               </Button>
             </Form.Item>
           </Form>
-        </Card>
+      </Card>
+    )
+  }
 
-        <Table style={ {marginTop: "10px"} }  columns={ this.columns } dataSource={ list } loading={ loading } pagination={{
-         current: curPage,
-         total: total,
-         onChange: this.onChange.bind(this)
-       }} rowKey={(item: any) => item.id} />
+  renderTable() {
+    const { loading, list, total, curPage  } = this.state;
+    const columns = [
+      {
+        title: '标题',
+        dataIndex: 'title',
+        key: 'title',
+        ellipsis: true
+      },
+      {
+        title: '成色',
+        dataIndex: 'level',
+        key: 'level',
+        render: (text: number) => {
+          const color = text > 5 ? 'green' : '#ffe793';
+          return <Tag color= {color}> {text} </Tag>
+        }
+      },
+      {
+        title: '价格',
+        dataIndex: 'price',
+        key: 'price',
+      },
+      {
+        title: '库存',
+        dataIndex: 'count',
+        key: 'count',
+      },
+      {
+        title: '简介',
+        dataIndex: 'information',
+        key: 'information',
+        ellipsis: true
+      },
+      {
+        title: '发布日期',
+        dataIndex: 'create_time',
+        key: 'create_time',
+        render: (text:any) => {
+          return dayjs(text).format(`YYYY-MM-DD HH:mm`)
+        },
+      },
+      {
+        title: '修改日期',
+        dataIndex: 'update_time',
+        key: 'update_time',
+        render: (text:any) => {
+          return dayjs(text).format(`YYYY-MM-DD HH:mm`)
+        },
+      },
+      {
+        title: 'Action',
+        key: 'operation',
+        width: 160,
+        render:(text: any, record:any) => (
+          <Space size="middle">
+            <Button type="primary" size="small" onClick={this.handerEdit.bind(this, record)} >修改</Button>
+            <Button>删除</Button>
+          </Space>
+        )
+      },
+    ]
+    return (
+      <Table style={ {marginTop: "10px"} }  columns={ columns } dataSource={ list } loading={ loading } pagination={{
+        current: curPage,
+        total: total,
+        onChange: this.onChange.bind(this)
+      }} rowKey={(item: any) => item.id} />
+    )
+  }
 
+  render() {
+    const { isModalVisible } = this.state;
+    return (
+      <div className="page-user">
+        {this.renderForm()}
+        {this.renderTable()}
+
+        <Modal title="Basic Modal" visible={isModalVisible} onOk={this.handleOk.bind(this)} onCancel={this.handleCancel.bind(this)}>
+              {this.editFormRender()}
+        </Modal>
       </div>
     );
   }

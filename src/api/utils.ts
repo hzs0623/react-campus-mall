@@ -1,7 +1,7 @@
 
 import { message } from 'antd';
 import store from '../redux';
-import { pro_token } from "../constant";
+import { getToken } from "../constant";
 
 // 创建一个错误
 function errorCreate(msg = '') {
@@ -13,7 +13,7 @@ export const handleRequest = (config: any) => {
   const { method, params = {}, headers = {}, loading = true } = config;
 
   try {
-    const authtoken = store.getState().global.token || JSON.parse(JSON.stringify(localStorage.getItem(pro_token)));
+    const authtoken = store.getState().global.token || getToken;
 
     if (method === 'get') {
       config.params = {

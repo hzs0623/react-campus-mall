@@ -1,6 +1,17 @@
+export const ENV = process.env.NODE_ENV;  // development ||  production
+
 export const pro_token:string = "pro_token"; // token变量
 
-export const apiUrl:string =  `http://121.4.113.48:3333`; // api url
+export const getToken:any = (() => {
+  try {
+    const data = window.localStorage.getItem(pro_token) || '';
+    return JSON.parse(data).token || '';
+  } catch(e) {
+    return '';
+  }
+})();
+
+export const apiUrl:string = ENV === 'production' ? `http://121.4.113.48:3333` : 'http://127.0.0.1:3333'; // api url
 
 // 支付方式map
 export const methodMap:object = {
