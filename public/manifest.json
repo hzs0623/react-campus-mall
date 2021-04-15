@@ -3,14 +3,9 @@
   "name": "yifang",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "https://daes-1251985304.cos.ap-shanghai.myqcloud.com/shop/icon/favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
-    },
-    {
-      "src": "https://daes-1251985304.cos.ap-shanghai.myqcloud.com/shop/icon/favicon.ico",
-      "type": "image/png",
-      "sizes": "192x192"
     }
   ],
   "start_url": ".",

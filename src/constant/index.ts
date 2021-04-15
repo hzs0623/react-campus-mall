@@ -24,10 +24,11 @@ export const methodMap: MethodMap = {
   '3': '线下支付'
 }
 
+// 购物状态
 export const sellStateMap:MethodMap = {
-  '1': '发货中',
-  '2': '已发货，待收货',
-  '3': "交易完成"
+  1: '发货中',
+  2: '已发货，待收货',
+  3: "交易完成"
 }
 
 interface AdminState {
