@@ -42,6 +42,7 @@ const ShopCart: React.FC = () => {
 
   useEffect(() => {
     getList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [curPage]);
 
   const renderTable = () => {

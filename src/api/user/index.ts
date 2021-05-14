@@ -7,3 +7,19 @@ export function getList(params: object) {
     params
   })
 }
+
+export function userEdit(data: object) {
+  return request({
+    url: '/user/edit',
+    method: 'post',
+    data
+  })
+}
+
+export function userDelete(data: object) {
+  return request({
+    url: '/user/delete',
+    method: 'post',
+    data
+  })
+}

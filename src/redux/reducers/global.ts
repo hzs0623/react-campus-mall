@@ -3,7 +3,8 @@ import { SET_USER_INFO } from '../types'
 interface AppState {
   token: string,
   user: string,
-  uid: number
+  uid: number,
+  admin_state: number
 }
 
 interface actionObj {
@@ -14,7 +15,8 @@ interface actionObj {
 const globalState: AppState = {
   token: "",
   user: "",
-  uid: 0
+  uid: 0,
+  admin_state: 1
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
